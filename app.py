@@ -10,7 +10,7 @@ task_id_counter = 1
 def home():
     return jsonify({
         "app": "Task Manager API",
-        "message": "Manage your tasks easily 🚀"
+        "message": "Manage your tasks easily........... 🚀"
     })
 
 # Get all tasks
