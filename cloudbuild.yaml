@@ -1,0 +1,27 @@
+steps:
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      [
+        'build',
+        '-t',
+        'us-central1-docker.pkg.dev/priyanandhini-2489342/python-app-repo/server:$BUILD_ID',
+        '.'
+      ]
+
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      [
+        'push',
+        'us-central1-docker.pkg.dev/priyanandhini-2489342/python-app-repo/server:$BUILD_ID'
+      ]
+  # Step 3: Update your VM instance to run the container
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    entrypoint: 'gcloud'
+    args: [
+      'compute', 'instances', 'update-container', 'container-vm',
+      '--zone=us-central1-a',
+      '--container-image=us-central1-docker.pkg.dev/priyanandhini-2489342/python-app-repo/server:$BUILD_ID'
+    ]
+
+options:
+  logging: CLOUD_LOGGING_ONLY
